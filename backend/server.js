@@ -2,7 +2,6 @@ process.on('uncaughtException', (err) => {
   console.error('UNCAUGHT EXCEPTION:', err.stack);
 });
 
-
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -13,13 +12,18 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
-// app.use(express.json());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://multi-vendor-ecommerce-rose.vercel.app'
+  ],
+  credentials: true
+}));
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Routes (we'll add these one by one)
+// Routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
