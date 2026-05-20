@@ -13,8 +13,31 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
 // app.use(express.json());
+
+const allowedOrigins = [
+  "http://localhost:5174",
+  "https://multi-vendor-ecommerce-rose.vercel.app"
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow mobile apps or Postman (no origin)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("CORS blocked: Not allowed origin"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
+//
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
