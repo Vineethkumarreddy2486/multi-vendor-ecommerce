@@ -9,7 +9,7 @@ const API = axios.create({
   baseURL:
     window.location.hostname === 'localhost'
       ? 'http://localhost:5000/api'
-      : 'https://YOUR-RENDER-URL.onrender.com/api'
+      : 'https://multi-vendor-ecommerce-a0hw.onrender.com'
 });
 
 API.interceptors.request.use((config) => {
